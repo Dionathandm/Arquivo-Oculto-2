@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivo Oculto - Jogo Narrativo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #d1d1d1;
+            font-family: 'Crimson Pro', serif;
+            scroll-behavior: smooth;
+        }
+        .typewriter {
+            font-family: 'Special Elite', cursive;
+        }
+        .file-border {
+            border-left: 2px solid #333;
+            padding-left: 1.5rem;
+        }
+        .chapter-transition {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .hidden-content {
+            display: none;
+        }
+        .locked-overlay {
+            background: linear-gradient(to top, #0a0a0a 0%, transparent 100%);
+        }
+        input::placeholder {
+            color: #444;
+        }
+    </style>
+</head>
+<body class="selection:bg-red-900 selection:text-white">
+
+    <!-- App Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+        
+        <!-- Navigation / Header -->
+        <header class="p-6 border-b border-zinc-800 flex justify-between items-center sticky top-0 bg-[#0a0a0a]/90 backdrop-blur-sm z-50">
+            <div class="typewriter text-red-700 text-xl font-bold tracking-tighter cursor-pointer" onclick="showView('home')">
+                ARQUIVO_OCULTO
+            </div>
+            <nav id="main-nav" class="hidden">
+                <button onclick="showView('cases')" class="text-zinc-500 hover:text-white transition-colors text-sm uppercase tracking-widest">Casos</button>
+            </nav>
+        </header>
+
+        <!-- Views -->
+        <main class="flex-grow container mx-auto px-4 max-w-2xl py-12">
+            
+            <!-- VIEW: HOME -->
+            <section id="view-home" class="view flex flex-col items-center justify-center text-center space-y-8 py-20">
+                <div class="space-y-4">
+                    <h1 class="text-5xl md:text-7xl font-light tracking-tighter text-zinc-100">Nem todo crime é <span class="italic text-zinc-500">resolvido</span>.</h1>
+                    <p class="text-zinc-400 text-lg max-w-md mx-auto">Alguns são apenas esquecidos. Outros, escondidos em prateleiras que ninguém ousa tocar.</p>
+                </div>
+                <button onclick="showView('cases')" class="group relative px-8 py-3 overflow-hidden border border-zinc-700 hover:border-red-900 transition-all duration-500">
+                    <span class="relative z-10 text-zinc-300 group-hover:text-white uppercase tracking-[0.2em] text-sm">Entrar nos Arquivos</span>
+                    <div class="absolute inset-0 bg-red-950/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                </button>
+            </section>
+
+            <!-- VIEW: CASE LIST -->
+            <section id="view-cases" class="view hidden space-y-12">
+                <h2 class="typewriter text-2xl text-zinc-400 mb-8">Arquivos Pendentes</h2>
+                
+                <div onclick="startCase('arquivo-01')" class="group p-6 border border-zinc-800 bg-zinc-900/20 hover:bg-zinc-900/40 cursor-pointer transition-all border-l-4 border-l-zinc-700 hover:border-l-red-800">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs text-zinc-500 typewriter">REF: 01-77-B</span>
+                        <span class="text-[10px] bg-zinc-800 px-2 py-1 text-zinc-400 uppercase tracking-tighter">Gratuito</span>
+                    </div>
+                    <h3 class="text-2xl text-zinc-200 group-hover:text-white transition-colors">O Silêncio do Arquivo 01</h3>
+                    <p class="text-zinc-500 mt-2 italic">"O erro não estava no crime. Estava no investigador."</p>
+                    <div class="mt-6 flex items-center text-xs text-red-900 font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                        Abrir Arquivo →
+                    </div>
+                </div>
+
+                <div class="opacity-30 p-6 border border-zinc-900 bg-zinc-950/20 cursor-not-allowed">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs text-zinc-700 typewriter">REF: 02-14-C</span>
+                        <span class="text-[10px] bg-zinc-900 px-2 py-1 text-zinc-600 uppercase tracking-tighter">Bloqueado</span>
+                    </div>
+                    <h3 class="text-2xl text-zinc-700">A Memória de Vidro</h3>
+                    <p class="text-zinc-700 mt-2">Próximo caso em breve...</p>
+                </div>
+            </section>
+
+            <!-- VIEW: NARRATIVE -->
+            <section id="view-game" class="view hidden pb-24">
+                <div id="narrative-content" class="space-y-12 leading-relaxed text-lg text-zinc-300">
+                    <!-- Chapters will be injected here -->
+                </div>
+
+                <!-- LOCK SCREEN -->
+                <div id="lock-screen" class="hidden mt-20 pt-20 border-t border-zinc-800 text-center space-y-8 relative">
+                    <div class="absolute -top-12 left-1/2 -translate-x-1/2 px-4 bg-[#0a0a0a] text-zinc-500 typewriter text-sm">
+                        INTERRUPÇÃO DE SISTEMA
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-3xl text-zinc-100 font-bold">A verdade nunca esteve onde você procurou.</h3>
+                        <p class="text-zinc-500 max-w-sm mx-auto">Você acredita que resolveu o caso. Mas o relatório está incompleto. A Parte 2 contém a revelação final.</p>
+                    </div>
+                    <div class="max-w-xs mx-auto space-y-4">
+                        <input type="text" id="unlock-code" placeholder="CÓDIGO DE ACESSO" class="w-full bg-zinc-900 border border-zinc-800 p-4 text-center typewriter tracking-widest focus:outline-none focus:border-red-900 transition-colors uppercase">
+                        <button onclick="checkCode()" class="w-full bg-zinc-100 text-black py-4 uppercase font-bold text-sm tracking-widest hover:bg-red-800 hover:text-white transition-all">Desbloquear Parte Final</button>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <a href="https://wa.me/qr/JTNRPS65GWRZI1" target="_blank" class="inline-flex items-center gap-2 text-zinc-400 hover:text-green-500 transition-colors border border-zinc-800 px-4 py-2 text-xs uppercase tracking-widest typewriter">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            Solicitar Código de Investigação
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer / Status Bar -->
+        <footer class="p-4 border-t border-zinc-900 flex justify-between items-center text-[10px] typewriter text-zinc-600 uppercase">
+            <div id="status-left">Sistema Online</div>
+            <div id="status-right">Protocolo: Investigador</div>
+        </footer>
+    </div>
+
+    <script>
+        const story = {
+            'arquivo-01': {
+                title: "O Silêncio do Arquivo 01",
+                parts: [
+                    {
+                        id: 1,
+                        chapters: [
+                            {
+                                title: "Capítulo 1: O Retorno",
+                                content: "O investigador não abriu o arquivo por curiosidade. Abriu porque alguém o colocou sobre sua mesa. Nenhuma assinatura. Nenhum bilhete. Apenas o mesmo número que ele jurou nunca mais ver: 01-77-B. Pela primeira vez em sete anos, o silêncio do escritório foi quebrado pelo barulho de uma pasta de couro sendo aberta."
+                            },
+                            {
+                                title: "Capítulo 2: O Erro",
+                                content: "O desaparecimento de Elisa fora tratado como algo simples. Uma rotina quebrada. Uma ausência sem testemunhas. Um relatório encerrado cedo demais. Na época, ele assinou o documento final sem reler a última página. Ele queria que o caso sumisse. Hoje, ele percebeu o que ignorou: o horário do último telefonema não batia com o depoimento do marido."
+                            },
+                            {
+                                title: "Capítulo 3: O Investigador",
+                                content: "Desde aquele caso, ele se tornara um fantasma nos corredores da delegacia. Rejeitava novos trabalhos, dormia no sofá do escritório e revisava arquivos antigos como quem procura uma saída de um labirinto. Ele sabia que algo estava errado, mas admitir isso era admitir sua própria negligência."
+                            },
+                            {
+                                title: "Capítulo 4: Os Suspeitos",
+                                content: `<div class='space-y-6 bg-zinc-900/30 p-6 border-l-2 border-zinc-700 italic text-sm'>
+                                    <div><strong>Suspeito 1: O Marido.</strong> Benefício financeiro imediato. Afirmou estar no trabalho, mas o registro de ponto foi editado manualmente.</div>
+                                    <div><strong>Suspeito 2: O Vizinho.</strong> Histórico de obsessão. Testemunhas dizem tê-lo visto limpando o porta-malas às 3h da manhã.</div>
+                                    <div><strong>Suspeito 3: O Irmão.</strong> Dívidas de jogo. Foi o último a ver Elisa viva em uma discussão pública.</div>
+                                </div>
+                                <p class='mt-6'>Todos pareciam culpados. E é exatamente aí que o investigador cometeu seu segundo grande erro. Ele procurou um culpado entre os óbvios, em vez de procurar a verdade.</p>`
+                            },
+                            {
+                                title: "Capítulo 5: As Pistais",
+                                content: "As datas não batiam. Os depoimentos mudavam de versão conforme o tempo passava. Um documento de perícia técnica aparecia no sistema com duas conclusões diferentes. O investigador, na época, escolheu a explicação mais rápida e lógica: O Marido. Ele foi preso. O caso foi 'resolvido'. O mundo seguiu em frente."
+                            },
+                            {
+                                title: "Capítulo 6: A Conclusão (Falsa)",
+                                content: "As peças se encaixaram perfeitamente... rápido demais. O marido confessou sob pressão. O caso foi encerrado. Mas ao escrever a última linha agora, sete anos depois, o investigador sentiu o mesmo frio na espinha: não havia alívio. A história fazia sentido, mas não parecia verdadeira. Ele percebeu que a confissão foi comprada. Alguém queria que o marido levasse a culpa para proteger o verdadeiro nome..."
+                            }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        chapters: [
+                            {
+                                title: "Capítulo 7: O Detalhe Esquecido",
+                                content: "Revisando as fotos do local, algo brilhou no canto de uma imagem. Não era uma joia de Elisa. Era um distintivo. Um distintivo idêntico ao que o investigador carrega no peito. A prova não foi descartada por falta de relevância, mas por medo."
+                            },
+                            {
+                                title: "Capítulo 8: O Nome Ausente",
+                                content: "O verdadeiro nome nunca aparecera na lista. Não por falta de provas, mas por influência. O Silêncio fora comprado nos altos escalões. Elisa não desapareceu por causa de um crime passional. Ela desapareceu porque encontrou o arquivo errado na pessoa errada."
+                            },
+                            {
+                                title: "Capítulo 9: A Manipulação",
+                                content: "O sistema não falhou por acidente. Ele foi treinado para falhar. Cada depoimento editado, cada horário ajustado... tudo levava ao Marido. O investigador foi apenas a ferramenta perfeita: alguém cansado demais para questionar o que parecia óbvio."
+                            },
+                            {
+                                title: "Capítulo 10: O Investigador como Peça",
+                                content: "Ele não foi enganado pelos suspeitos. Ele foi enganado pelos seus pares. Ele assinou a sentença de um inocente porque era o caminho mais fácil. A verdade estava na sua frente o tempo todo: a caligrafia na ordem de encerramento do caso era do seu próprio mentor."
+                            },
+                            {
+                                title: "Capítulo 11: A Queda",
+                                content: "O responsável não matou Elisa. Elisa nunca esteve morta. Ela foi enviada para longe, mantida em silêncio sob ameaça contra sua família. O 'crime' foi um teatro montado para remover uma testemunha inconveniente de um esquema de corrupção que o próprio investigador, hoje, sabe que ainda opera."
+                            },
+                            {
+                                title: "Capítulo 12: A Verdade",
+                                content: "O erro do investigador foi acreditar que a lei e a justiça eram a mesma coisa. O desaparecimento foi a única forma que encontraram de salvá-la de algo pior, mas ao custo de destruir a vida de um homem inocente e a carreira de um investigador que nunca mais dormiria em paz."
+                            },
+                            {
+                                title: "Capítulo 13: O Encerramento",
+                                content: "O caso foi reaberto em segredo. O Marido foi solto sob uma tecnicalidade jurídica. Ninguém foi preso pela corrupção. Algumas vitórias são silenciosas e amargas. O investigador entregou seu distintivo no mesmo dia em que o arquivo voltou para a prateleira."
+                            },
+                            {
+                                title: "Capítulo 14: Epílogo",
+                                content: "O arquivo 01-77-B agora tem uma marca definitiva. Não é uma assinatura de juiz ou um selo oficial. É apenas uma palavra escrita à mão, trêmula, em tinta vermelha: RESOLVIDO. O investigador agora sabe: nem toda verdade traz liberdade. Algumas apenas mudam o tamanho da cela."
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentCaseId = null;
+        let isUnlocked = false;
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`view-${viewId}`).classList.remove('hidden');
+            
+            if (viewId === 'home') {
+                document.getElementById('main-nav').classList.add('hidden');
+            } else {
+                document.getElementById('main-nav').classList.remove('hidden');
+            }
+            window.scrollTo(0,0);
+        }
+
+        function startCase(id) {
+            currentCaseId = id;
+            const container = document.getElementById('narrative-content');
+            container.innerHTML = '';
+            
+            const caseData = story[id];
+            renderPart(caseData.parts[0]);
+            
+            document.getElementById('lock-screen').classList.remove('hidden');
+            showView('game');
+        }
+
+        function renderPart(part) {
+            const container = document.getElementById('narrative-content');
+            part.chapters.forEach((ch, index) => {
+                const chapterEl = document.createElement('div');
+                chapterEl.className = 'chapter-transition opacity-0 mb-16';
+                chapterEl.innerHTML = `
+                    <h4 class="typewriter text-red-900 text-xs mb-2 uppercase tracking-widest">${ch.title}</h4>
+                    <div class="file-border">
+                        <p class="text-zinc-300 leading-relaxed">${ch.content}</p>
+                    </div>
+                `;
+                container.appendChild(chapterEl);
+                
+                // Staggered appearance
+                setTimeout(() => {
+                    chapterEl.classList.remove('opacity-0');
+                    chapterEl.classList.add('opacity-100');
+                }, index * 300);
+            });
+        }
+
+        function checkCode() {
+            const code = document.getElementById('unlock-code').value.toUpperCase();
+            if (code === 'LIBERADO-01') {
+                unlockPart2();
+            } else {
+                alert('ACESSO NEGADO: Código Inválido.');
+                const input = document.getElementById('unlock-code');
+                input.classList.add('border-red-600');
+                setTimeout(() => input.classList.remove('border-red-600'), 1000);
+            }
+        }
+
+        function unlockPart2() {
+            isUnlocked = true;
+            document.getElementById('lock-screen').classList.add('hidden');
+            
+            const caseData = story[currentCaseId];
+            renderPart(caseData.parts[1]);
+            
+            // Notification
+            const statusRight = document.getElementById('status-right');
+            statusRight.innerText = "Acesso Nível 2: Liberado";
+            statusRight.classList.add('text-red-700');
+        }
+
+        // Initialize
+        showView('home');
+    </script>
+</body>
+</html>

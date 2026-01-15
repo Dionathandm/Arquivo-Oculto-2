@@ -88,9 +88,30 @@
                     </div>
                 </div>
 
+                <div id="case-02-locked" class="p-6 border border-zinc-900 bg-zinc-950/20 cursor-not-allowed opacity-40">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs text-zinc-700 typewriter">REF: 02-31-J</span>
+                        <span class="text-[10px] bg-zinc-900 px-2 py-1 text-zinc-600 uppercase tracking-tighter">Bloqueado</span>
+                    </div>
+                    <h3 class="text-2xl text-zinc-700">Quem Matou Júlia?</h3>
+                    <p class="text-zinc-700 mt-2">Este caso só pode ser acessado por investigadores que concluíram o Arquivo 01.</p>
+                </div>
+
+                <div id="case-02-unlocked" onclick="requireInvestigationAccessOrStart('arquivo-02')" class="hidden group p-6 border border-zinc-800 bg-zinc-900/20 hover:bg-zinc-900/40 cursor-pointer transition-all border-l-4 border-l-zinc-700 hover:border-l-red-800">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs text-zinc-500 typewriter">REF: 02-31-J</span>
+                        <span class="text-[10px] bg-zinc-800 px-2 py-1 text-zinc-400 uppercase tracking-tighter">Interativo</span>
+                    </div>
+                    <h3 class="text-2xl text-zinc-200 group-hover:text-white transition-colors">Quem Matou Júlia?</h3>
+                    <p class="text-zinc-500 mt-2 italic">"Desta vez, não sou eu quem vai errar."</p>
+                    <div class="mt-6 flex items-center text-xs text-red-900 font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                        Iniciar Investigação →
+                    </div>
+                </div>
+
                 <div class="opacity-30 p-6 border border-zinc-900 bg-zinc-950/20 cursor-not-allowed">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-xs text-zinc-700 typewriter">REF: 02-14-C</span>
+                        <span class="text-xs text-zinc-700 typewriter">REF: 03-44-K</span>
                         <span class="text-[10px] bg-zinc-900 px-2 py-1 text-zinc-600 uppercase tracking-tighter">Bloqueado</span>
                     </div>
                     <h3 class="text-2xl text-zinc-700">A Memória de Vidro</h3>
@@ -102,6 +123,12 @@
             <section id="view-game" class="view hidden pb-24">
                 <div id="narrative-content" class="space-y-12 leading-relaxed text-lg text-zinc-300">
                     <!-- Chapters will be injected here -->
+                </div>
+
+                <div id="choice-panel" class="hidden mt-12 border border-zinc-800 bg-zinc-950/40 p-6 space-y-4">
+                    <div class="typewriter text-xs uppercase tracking-widest text-zinc-500">Decisão do Investigador</div>
+                    <div id="choice-text" class="text-zinc-300 text-lg"></div>
+                    <div id="choice-buttons" class="grid gap-3"></div>
                 </div>
 
                 <!-- LOCK SCREEN -->
@@ -227,11 +254,180 @@
                         ]
                     }
                 ]
+            },
+            'arquivo-02': {
+                title: "Quem Matou Júlia?",
+                parts: [
+                    {
+                        id: 1,
+                        chapters: [
+                            {
+                                title: "Introdução: O Caso",
+                                image: "caso-02-capa.jpg",
+                                content: "Júlia não deveria estar morta. Nada indicava perigo, nenhuma ameaça registrada, nenhum histórico violento. O corpo foi encontrado em seu apartamento sem sinais de arrombamento e sem testemunhas diretas. O investigador entrega o arquivo a você: \"Desta vez, não sou eu quem vai errar.\" Agora, a responsabilidade é sua."
+                            },
+                            {
+                                title: "Capítulo 1: A Cena",
+                                image: "caso-02-cena.jpg",
+                                content: "O apartamento estava limpo demais para uma noite interrompida. A janela aberta deixava entrar um vento frio. O relógio da cozinha marcava 22h17. Júlia estava no chão da sala, sem marcas visíveis. Não havia arma. A porta não estava forçada. Havia, porém, duas xícaras de café sobre a mesa."
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const caseNodes = {
+            'arquivo-01': {
+                start: {
+                    text: "Você precisa concluir o relatório. Quem você acusa oficialmente?",
+                    choices: [
+                        { label: "Acusar o marido", next: "acusacao-marido" },
+                        { label: "Acusar o vizinho", next: "acusacao-vizinho" },
+                        { label: "Acusar o irmão", next: "acusacao-irmao" }
+                    ]
+                },
+                "acusacao-marido": {
+                    text: "A confissão foi escrita rápido demais. Ele estava fragilizado, cercado. Tudo parece encaixar. Mas algo em você não concorda com a própria assinatura.",
+                    choices: [
+                        { label: "Encerrar o relatório", next: "lock-screen" }
+                    ]
+                },
+                "acusacao-vizinho": {
+                    text: "O histórico dele é suspeito. As testemunhas o viram tarde demais. Ainda assim, o relatório exige peças que você não tem. Você sabe disso quando já é tarde.",
+                    choices: [
+                        { label: "Encerrar o relatório", next: "lock-screen" }
+                    ]
+                },
+                "acusacao-irmao": {
+                    text: "As dívidas explicam a motivação. As discussões explicam o medo. Mas o horário não fecha. O caso parece resolvido, porém não verdadeiro.",
+                    choices: [
+                        { label: "Encerrar o relatório", next: "lock-screen" }
+                    ]
+                }
+            },
+            'arquivo-02': {
+                start: {
+                    text: "O que você faz primeiro?",
+                    choices: [
+                        { label: "Examinar o corpo", next: "examinar-corpo" },
+                        { label: "Examinar o apartamento", next: "examinar-apartamento" }
+                    ]
+                },
+                "examinar-corpo": {
+                    text: "Você percebe que não há sinais de luta. As unhas estão intactas. Um detalhe, porém, chama a atenção: uma marca circular no pulso, como se algo tivesse sido amarrado por segundos e removido rápido demais.",
+                    choices: [
+                        { label: "Interrogar o namorado", next: "interrogar-namorado" },
+                        { label: "Investigar o trabalho de Júlia", next: "investigar-trabalho" }
+                    ]
+                },
+                "examinar-apartamento": {
+                    text: "O apartamento não foi revirado. A mesa de jantar tem duas xícaras. Uma delas com resíduo de café frio. No lixo, há um bilhete rasgado com palavras incompletas: \"...não posso deixar que ele descub...\".",
+                    choices: [
+                        { label: "Seguir a pista do bilhete", next: "seguir-bilhete" },
+                        { label: "Interrogar a melhor amiga", next: "interrogar-amiga" }
+                    ]
+                },
+                "interrogar-namorado": {
+                    text: "O namorado diz que dormia. Mas o celular dele estava ativo às 23h04. Ele fica nervoso quando você menciona o pulso marcado de Júlia. Tudo nele grita culpa. Talvez seja tarde demais para voltar.",
+                    choices: [
+                        { label: "Acusar o namorado", next: "falso-final" },
+                        { label: "Voltar e reexaminar provas", next: "reexaminar" }
+                    ]
+                },
+                "investigar-trabalho": {
+                    text: "No trabalho, você descobre que Júlia denunciou um esquema interno. Um colega tentou acessar o prédio naquela noite, mas foi barrado pela portaria. Ele afirma não ter contato pessoal com ela, mas conhece detalhes íntimos da rotina.",
+                    choices: [
+                        { label: "Interrogar o colega", next: "interrogar-colega" },
+                        { label: "Voltar ao apartamento", next: "reexaminar" }
+                    ]
+                },
+                "seguir-bilhete": {
+                    text: "A caligrafia é de Júlia. O bilhete fala sobre alguém que ela não podia expor. O pedaço restante diz: \"Se eu falar, ele destrói tudo\". Isso não parece algo sobre o namorado.",
+                    choices: [
+                        { label: "Investigar o trabalho de Júlia", next: "investigar-trabalho" },
+                        { label: "Interrogar a melhor amiga", next: "interrogar-amiga" }
+                    ]
+                },
+                "interrogar-amiga": {
+                    text: "A melhor amiga diz que Júlia estava com medo. Ela menciona um detalhe que não foi divulgado: a xícara quebrada na pia. Quando confrontada, ela diz que \"ouviu na rádio\". Mas você sabe que isso não saiu nos registros.",
+                    choices: [
+                        { label: "Confrontar a amiga", next: "reexaminar" },
+                        { label: "Acusar a amiga", next: "falso-final" }
+                    ]
+                },
+                "interrogar-colega": {
+                    text: "O colega demonstra medo, não raiva. Ele confessa que tentou entrar no prédio para recuperar um pendrive. Não queria que Júlia entregasse o conteúdo. Ele diz que outra pessoa estava lá naquela noite: alguém que ela confiava.",
+                    choices: [
+                        { label: "Reexaminar a cena", next: "reexaminar" },
+                        { label: "Ignorar e seguir a acusação", next: "falso-final" }
+                    ]
+                },
+                reexaminar: {
+                    text: "Você retorna ao apartamento com novos olhos. O detalhe silencioso que você ignorou agora é óbvio: as duas xícaras. Júlia não recebeu o namorado. Ela recebeu alguém que ela confiava — a melhor amiga. Mas quem realmente agiu foi o colega, que usou a amiga para obter acesso e silenciá-la antes que a denúncia fosse entregue.",
+                    choices: [
+                        { label: "Apontar o verdadeiro culpado", next: "verdadeiro-final" }
+                    ]
+                },
+                "falso-final": {
+                    text: "Você fecha o caso. A acusação parece lógica. Mas há um detalhe que nunca se encaixou: a segunda xícara. A história está incompleta. O sistema registra a sua conclusão como falsa.",
+                    choices: [
+                        { label: "Voltar e revisar", next: "reexaminar" }
+                    ]
+                },
+                "verdadeiro-final": {
+                    text: "Você resolveu. O colega de trabalho usou a amizade para acessar Júlia, apagou rastros e tentou plantar uma narrativa simples. A marca no pulso era do cabo do pendrive preso. A denúncia foi recuperada. O caso foi encerrado sem pontas soltas. O arquivo agora traz a palavra: RESOLVIDO.",
+                    choices: [
+                        { label: "Encerrar e enviar relatório", next: "coming-soon" },
+                        { label: "Voltar aos casos", next: "return-cases" }
+                    ]
+                }
             }
         };
 
         let currentCaseId = null;
         let isUnlocked = false;
+        let activeNodes = null;
+        let case02State = { current: "start" };
+
+        // Persistência simples (WebView/PWA-friendly)
+        const STORAGE_KEYS = {
+            CASE01_DONE: 'arquivoOculto_case01_done',
+            CASES_UNLOCKED: 'arquivoOculto_cases_unlocked'
+        };
+
+        function getCase01Done() {
+            return localStorage.getItem(STORAGE_KEYS.CASE01_DONE) === 'true';
+        }
+
+        function setCase01Done(val) {
+            localStorage.setItem(STORAGE_KEYS.CASE01_DONE, val ? 'true' : 'false');
+            refreshCaseAccessUI();
+        }
+
+        function refreshCaseAccessUI() {
+            const canAccess02 = getCase01Done();
+            const lockedCard = document.getElementById('case-02-locked');
+            const unlockedCard = document.getElementById('case-02-unlocked');
+            if (!lockedCard || !unlockedCard) return;
+
+            if (canAccess02) {
+                lockedCard.classList.add('hidden');
+                unlockedCard.classList.remove('hidden');
+            } else {
+                unlockedCard.classList.add('hidden');
+                lockedCard.classList.remove('hidden');
+            }
+        }
+
+        function requireInvestigationAccessOrStart(caseId) {
+            // Regra: Caso 02 só abre se Caso 01 concluído
+            if (caseId === 'arquivo-02' && !getCase01Done()) {
+                showView('cases');
+                return;
+            }
+            startCase(caseId);
+        }
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
@@ -248,9 +444,24 @@
         function startCase(id) {
             currentCaseId = id;
             const container = document.getElementById('narrative-content');
+            const lockScreen = document.getElementById('lock-screen');
+            const choicePanel = document.getElementById('choice-panel');
             container.innerHTML = '';
             
             const caseData = story[id];
+            
+            if (id === 'arquivo-02') {
+                const coverImg = document.createElement('div');
+                coverImg.className = 'mb-12 border-b border-zinc-800 pb-12';
+                coverImg.innerHTML = `<img src="capa-02.jpg" alt="Capa do Caso" class="w-full h-64 object-cover grayscale opacity-70" onerror="this.style.display='none'">`;
+                container.appendChild(coverImg);
+
+                renderPart(caseData.parts[0]);
+                lockScreen.classList.add('hidden');
+                showChoice('start');
+                showView('game');
+                return;
+            }
             
             // Add Cover Image
             const coverImg = document.createElement('div');
@@ -260,7 +471,8 @@
 
             renderPart(caseData.parts[0]);
             
-            document.getElementById('lock-screen').classList.remove('hidden');
+            choicePanel.classList.add('hidden');
+            lockScreen.classList.remove('hidden');
             showView('game');
         }
 
@@ -331,6 +543,11 @@
         function unlockPart2() {
             isUnlocked = true;
             document.getElementById('lock-screen').classList.add('hidden');
+
+            // Marca conclusão/liberação do Caso 01 (para desbloquear o Caso 02)
+            if (currentCaseId === 'arquivo-01') {
+                setCase01Done(true);
+            }
             
             const caseData = story[currentCaseId];
             renderPart(caseData.parts[1]);
@@ -341,7 +558,63 @@
             statusRight.classList.add('text-red-700');
         }
 
+        function showChoice(nodeId) {
+            // nós interativos do Caso 02
+            const graph = caseNodes['arquivo-02'];
+            const node = graph ? graph[nodeId] : null;
+            const panel = document.getElementById('choice-panel');
+            const textEl = document.getElementById('choice-text');
+            const buttonsEl = document.getElementById('choice-buttons');
+
+            if (!node) return;
+
+            case02State.current = nodeId;
+            panel.classList.remove('hidden');
+            textEl.textContent = node.text;
+            buttonsEl.innerHTML = '';
+
+            node.choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left border border-zinc-800 bg-zinc-950/60 px-4 py-3 text-sm uppercase tracking-widest text-zinc-300 hover:border-red-900 hover:text-white transition-colors';
+                btn.textContent = choice.label;
+                btn.addEventListener('click', () => {
+                    if (choice.next === 'return-cases') {
+                        showView('cases');
+                        return;
+                    }
+                    if (choice.next === 'coming-soon') {
+                        showComingSoon();
+                        return;
+                    }
+                    showChoice(choice.next);
+                });
+                buttonsEl.appendChild(btn);
+            });
+        }
+
+        function showComingSoon() {
+            const container = document.getElementById('narrative-content');
+            const panel = document.getElementById('choice-panel');
+            panel.classList.add('hidden');
+
+            container.insertAdjacentHTML('beforeend', `
+                <div class="mt-16 border border-zinc-800 bg-zinc-950/40 p-6 space-y-4">
+                    <div class="typewriter text-xs uppercase tracking-widest text-zinc-500">COMUNICADO DO SISTEMA</div>
+                    <h3 class="text-2xl text-zinc-100">Mais investigações em breve.</h3>
+                    <p class="text-zinc-400">Você concluiu esta investigação. Nosso sistema recebe novos arquivos regularmente.</p>
+                    <p class="text-zinc-500 text-sm">Aguarde: atualizamos nossos casos todos os meses. Quando um novo arquivo estiver disponível, ele aparecerá na lista de casos.</p>
+                    <div class="pt-2 flex gap-3 flex-wrap">
+                        <button onclick="showView('cases')" class="border border-zinc-800 px-4 py-2 text-xs uppercase tracking-widest typewriter text-zinc-300 hover:border-red-900 hover:text-white transition-colors">Voltar aos Casos</button>
+                        <button onclick="showView('home')" class="border border-zinc-800 px-4 py-2 text-xs uppercase tracking-widest typewriter text-zinc-400 hover:text-white transition-colors">Tela Inicial</button>
+                    </div>
+                </div>
+            `);
+
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
         // Initialize
+        refreshCaseAccessUI();
         showView('home');
     </script>
 </body>

@@ -1,0 +1,11 @@
+imagens/
+ ├── capa.jpg                ← Arquivo confidencial (capa do app)
+ ├── cena_crime_quarto.jpg   ← Quarto da Júlia
+ ├── celular_vitima.jpg      ← Celular da vítima
+ ├── janela_quarto.jpg       ← Janela com chuva
+ ├── caderno_anotacoes.jpg   ← Caderno de anotações
+ ├── suspeito_rafael.jpg     ← Suspeito 1
+ ├── suspeita_marina.jpg     ← Suspeita 2
+ ├── suspeito_lucas.jpg      ← Suspeito 3
+ ├── decisao_final.jpg       ← Mesa da decisão
+ └── revelacao_final.jpg     ← Revelação / final

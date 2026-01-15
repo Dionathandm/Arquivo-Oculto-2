@@ -32,6 +32,14 @@
         input::placeholder {
             color: #444;
         }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .animate-shake {
+            animation: shake 0.2s ease-in-out 0s 2;
+        }
     </style>
 </head>
 <body class="selection:bg-red-900 selection:text-white">
@@ -107,7 +115,7 @@
                     </div>
                     <div class="max-w-xs mx-auto space-y-4">
                         <input type="text" id="unlock-code" placeholder="CÓDIGO DE ACESSO" class="w-full bg-zinc-900 border border-zinc-800 p-4 text-center typewriter tracking-widest focus:outline-none focus:border-red-900 transition-colors uppercase">
-                        <button onclick="checkCode()" class="w-full bg-zinc-100 text-black py-4 uppercase font-bold text-sm tracking-widest hover:bg-red-800 hover:text-white transition-all">Desbloquear Parte Final</button>
+                        <button onclick="checkCode(event)" class="w-full bg-zinc-100 text-black py-4 uppercase font-bold text-sm tracking-widest hover:bg-red-800 hover:text-white transition-all">Desbloquear Parte Final</button>
                     </div>
                     
                     <div class="pt-4">
@@ -138,18 +146,22 @@
                         chapters: [
                             {
                                 title: "Capítulo 1: O Retorno",
+                                image: "capitulo-1.jpg",
                                 content: "O investigador não abriu o arquivo por curiosidade. Abriu porque alguém o colocou sobre sua mesa. Nenhuma assinatura. Nenhum bilhete. Apenas o mesmo número que ele jurou nunca mais ver: 01-77-B. Pela primeira vez em sete anos, o silêncio do escritório foi quebrado pelo barulho de uma pasta de couro sendo aberta."
                             },
                             {
                                 title: "Capítulo 2: O Erro",
+                                image: "capitulo-2.jpg",
                                 content: "O desaparecimento de Elisa fora tratado como algo simples. Uma rotina quebrada. Uma ausência sem testemunhas. Um relatório encerrado cedo demais. Na época, ele assinou o documento final sem reler a última página. Ele queria que o caso sumisse. Hoje, ele percebeu o que ignorou: o horário do último telefonema não batia com o depoimento do marido."
                             },
                             {
                                 title: "Capítulo 3: O Investigador",
+                                image: "investigador.jpg",
                                 content: "Desde aquele caso, ele se tornara um fantasma nos corredores da delegacia. Rejeitava novos trabalhos, dormia no sofá do escritório e revisava arquivos antigos como quem procura uma saída de um labirinto. Ele sabia que algo estava errado, mas admitir isso era admitir sua própria negligência."
                             },
                             {
                                 title: "Capítulo 4: Os Suspeitos",
+                                image: "suspeitos.jpg",
                                 content: `<div class='space-y-6 bg-zinc-900/30 p-6 border-l-2 border-zinc-700 italic text-sm'>
                                     <div><strong>Suspeito 1: O Marido.</strong> Benefício financeiro imediato. Afirmou estar no trabalho, mas o registro de ponto foi editado manualmente.</div>
                                     <div><strong>Suspeito 2: O Vizinho.</strong> Histórico de obsessão. Testemunhas dizem tê-lo visto limpando o porta-malas às 3h da manhã.</div>
@@ -158,11 +170,13 @@
                                 <p class='mt-6'>Todos pareciam culpados. E é exatamente aí que o investigador cometeu seu segundo grande erro. Ele procurou um culpado entre os óbvios, em vez de procurar a verdade.</p>`
                             },
                             {
-                                title: "Capítulo 5: As Pistais",
+                                title: "Capítulo 5: As Pistas",
+                                image: "capitulo-5.jpg",
                                 content: "As datas não batiam. Os depoimentos mudavam de versão conforme o tempo passava. Um documento de perícia técnica aparecia no sistema com duas conclusões diferentes. O investigador, na época, escolheu a explicação mais rápida e lógica: O Marido. Ele foi preso. O caso foi 'resolvido'. O mundo seguiu em frente."
                             },
                             {
                                 title: "Capítulo 6: A Conclusão (Falsa)",
+                                image: "capitulo-6.jpg",
                                 content: "As peças se encaixaram perfeitamente... rápido demais. O marido confessou sob pressão. O caso foi encerrado. Mas ao escrever a última linha agora, sete anos depois, o investigador sentiu o mesmo frio na espinha: não havia alívio. A história fazia sentido, mas não parecia verdadeira. Ele percebeu que a confissão foi comprada. Alguém queria que o marido levasse a culpa para proteger o verdadeiro nome..."
                             }
                         ]
@@ -172,34 +186,42 @@
                         chapters: [
                             {
                                 title: "Capítulo 7: O Detalhe Esquecido",
+                                image: "capitulo-7.jpg",
                                 content: "Revisando as fotos do local, algo brilhou no canto de uma imagem. Não era uma joia de Elisa. Era um distintivo. Um distintivo idêntico ao que o investigador carrega no peito. A prova não foi descartada por falta de relevância, mas por medo."
                             },
                             {
                                 title: "Capítulo 8: O Nome Ausente",
+                                image: "capitulo-8.jpg",
                                 content: "O verdadeiro nome nunca aparecera na lista. Não por falta de provas, mas por influência. O Silêncio fora comprado nos altos escalões. Elisa não desapareceu por causa de um crime passional. Ela desapareceu porque encontrou o arquivo errado na pessoa errada."
                             },
                             {
                                 title: "Capítulo 9: A Manipulação",
+                                image: "capitulo-9.jpg",
                                 content: "O sistema não falhou por acidente. Ele foi treinado para falhar. Cada depoimento editado, cada horário ajustado... tudo levava ao Marido. O investigador foi apenas a ferramenta perfeita: alguém cansado demais para questionar o que parecia óbvio."
                             },
                             {
                                 title: "Capítulo 10: O Investigador como Peça",
+                                image: "capitulo-10.jpg",
                                 content: "Ele não foi enganado pelos suspeitos. Ele foi enganado pelos seus pares. Ele assinou a sentença de um inocente porque era o caminho mais fácil. A verdade estava na sua frente o tempo todo: a caligrafia na ordem de encerramento do caso era do seu próprio mentor."
                             },
                             {
                                 title: "Capítulo 11: A Queda",
+                                image: "capitulo-11.jpg",
                                 content: "O responsável não matou Elisa. Elisa nunca esteve morta. Ela foi enviada para longe, mantida em silêncio sob ameaça contra sua família. O 'crime' foi um teatro montado para remover uma testemunha inconveniente de um esquema de corrupção que o próprio investigador, hoje, sabe que ainda opera."
                             },
                             {
                                 title: "Capítulo 12: A Verdade",
+                                image: "capitulo-12.jpg",
                                 content: "O erro do investigador foi acreditar que a lei e a justiça eram a mesma coisa. O desaparecimento foi a única forma que encontraram de salvá-la de algo pior, mas ao custo de destruir a vida de um homem inocente e a carreira de um investigador que nunca mais dormiria em paz."
                             },
                             {
                                 title: "Capítulo 13: O Encerramento",
+                                image: "capitulo-13.jpg",
                                 content: "O caso foi reaberto em segredo. O Marido foi solto sob uma tecnicalidade jurídica. Ninguém foi preso pela corrupção. Algumas vitórias são silenciosas e amargas. O investigador entregou seu distintivo no mesmo dia em que o arquivo voltou para a prateleira."
                             },
                             {
                                 title: "Capítulo 14: Epílogo",
+                                image: "capitulo-14.jpg",
                                 content: "O arquivo 01-77-B agora tem uma marca definitiva. Não é uma assinatura de juiz ou um selo oficial. É apenas uma palavra escrita à mão, trêmula, em tinta vermelha: RESOLVIDO. O investigador agora sabe: nem toda verdade traz liberdade. Algumas apenas mudam o tamanho da cela."
                             }
                         ]
@@ -229,6 +251,13 @@
             container.innerHTML = '';
             
             const caseData = story[id];
+            
+            // Add Cover Image
+            const coverImg = document.createElement('div');
+            coverImg.className = 'mb-12 border-b border-zinc-800 pb-12';
+            coverImg.innerHTML = `<img src="capa.jpg" alt="Capa do Caso" class="w-full h-64 object-cover grayscale opacity-50" onerror="this.style.display='none'">`;
+            container.appendChild(coverImg);
+
             renderPart(caseData.parts[0]);
             
             document.getElementById('lock-screen').classList.remove('hidden');
@@ -239,11 +268,20 @@
             const container = document.getElementById('narrative-content');
             part.chapters.forEach((ch, index) => {
                 const chapterEl = document.createElement('div');
-                chapterEl.className = 'chapter-transition opacity-0 mb-16';
+                chapterEl.className = 'chapter-transition opacity-0 mb-20';
+                
+                let imgHtml = '';
+                if (ch.image) {
+                    imgHtml = `<div class="mb-6 overflow-hidden border border-zinc-800 rounded-sm">
+                        <img src="${ch.image}" alt="${ch.title}" class="w-full grayscale hover:grayscale-0 transition-all duration-700 object-cover max-h-64" onerror="this.style.display='none'">
+                    </div>`;
+                }
+
                 chapterEl.innerHTML = `
-                    <h4 class="typewriter text-red-900 text-xs mb-2 uppercase tracking-widest">${ch.title}</h4>
+                    ${imgHtml}
+                    <h4 class="typewriter text-red-900 text-xs mb-3 uppercase tracking-widest">${ch.title}</h4>
                     <div class="file-border">
-                        <p class="text-zinc-300 leading-relaxed">${ch.content}</p>
+                        <div class="text-zinc-300 leading-relaxed space-y-4">${ch.content}</div>
                     </div>
                 `;
                 container.appendChild(chapterEl);
@@ -252,20 +290,42 @@
                 setTimeout(() => {
                     chapterEl.classList.remove('opacity-0');
                     chapterEl.classList.add('opacity-100');
-                }, index * 300);
+                }, index * 400);
             });
         }
 
-        function checkCode() {
-            const code = document.getElementById('unlock-code').value.toUpperCase();
-            if (code === 'LIBERADO-01') {
-                unlockPart2();
-            } else {
-                alert('ACESSO NEGADO: Código Inválido.');
-                const input = document.getElementById('unlock-code');
-                input.classList.add('border-red-600');
-                setTimeout(() => input.classList.remove('border-red-600'), 1000);
-            }
+        function checkCode(event) {
+            const input = document.getElementById('unlock-code');
+            const button = event.currentTarget;
+            const code = input.value.trim();
+            
+            // Visual feedback
+            button.innerText = "VERIFICANDO...";
+            button.disabled = true;
+
+            setTimeout(() => {
+                if (code === '25262728') {
+                    button.innerText = "ACESSO CONCEDIDO";
+                    button.classList.replace('bg-zinc-100', 'bg-green-900');
+                    button.classList.replace('text-black', 'text-white');
+                    setTimeout(() => {
+                        unlockPart2();
+                    }, 800);
+                } else {
+                    button.innerText = "ACESSO NEGADO";
+                    button.classList.replace('bg-zinc-100', 'bg-red-900');
+                    button.classList.replace('text-black', 'text-white');
+                    input.classList.add('border-red-600', 'animate-shake');
+                    
+                    setTimeout(() => {
+                        button.innerText = "Desbloquear Parte Final";
+                        button.classList.replace('bg-red-900', 'bg-zinc-100');
+                        button.classList.replace('text-white', 'text-black');
+                        button.disabled = false;
+                        input.classList.remove('border-red-600', 'animate-shake');
+                    }, 2000);
+                }
+            }, 1200);
         }
 
         function unlockPart2() {
